@@ -39,6 +39,10 @@ const QuickActions = () => {
     }
   ];
 
+  const handleActionClick = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
       <CardHeader>
@@ -49,7 +53,7 @@ const QuickActions = () => {
           {actions.map((action, index) => (
             <div
               key={index}
-              onClick={() => navigate(action.path)}
+              onClick={() => handleActionClick(action.path)}
               className="p-6 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 cursor-pointer transition-all duration-300 group"
             >
               <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
