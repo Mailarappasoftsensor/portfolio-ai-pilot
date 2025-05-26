@@ -1,69 +1,85 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Brain, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const handleGetStarted = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/auth');
+    }
+  };
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-lg border-b border-white/10">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-lg border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
           <div className="flex items-center space-x-2">
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-xl">
               <Brain className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               PortfolioAI
             </span>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
-            <a href="#testimonials" className="text-gray-300 hover:text-white transition-colors">Testimonials</a>
-            <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
+            <a href="#features" className="text-gray-300 hover:text-white transition-colors">
+              Features
+            </a>
+            <a href="#testimonials" className="text-gray-300 hover:text-white transition-colors">
+              Reviews
+            </a>
+            <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">
+              Pricing
+            </a>
             <Button 
-              variant="outline" 
-              className="border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white"
-            >
-              Sign In
-            </Button>
-            <Button 
+              onClick={handleGetStarted}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-              onClick={() => navigate('/dashboard')}
             >
-              Get Started Free
+              {user ? 'Dashboard' : 'Get Started'}
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-300 hover:text-white"
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4">
-            <a href="#features" className="block text-gray-300 hover:text-white transition-colors">Features</a>
-            <a href="#testimonials" className="block text-gray-300 hover:text-white transition-colors">Testimonials</a>
-            <a href="#pricing" className="block text-gray-300 hover:text-white transition-colors">Pricing</a>
-            <div className="pt-4 space-y-2">
-              <Button variant="outline" className="w-full border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white">
-                Sign In
-              </Button>
+          <div className="md:hidden bg-black/40 backdrop-blur-lg rounded-lg mt-2 p-4">
+            <div className="flex flex-col space-y-4">
+              <a href="#features" className="text-gray-300 hover:text-white transition-colors">
+                Features
+              </a>
+              <a href="#testimonials" className="text-gray-300 hover:text-white transition-colors">
+                Reviews
+              </a>
+              <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">
+                Pricing
+              </a>
               <Button 
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-                onClick={() => navigate('/dashboard')}
+                onClick={handleGetStarted}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
               >
-                Get Started Free
+                {user ? 'Dashboard' : 'Get Started'}
               </Button>
             </div>
           </div>

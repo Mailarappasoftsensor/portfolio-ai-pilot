@@ -5,6 +5,7 @@ import {
   Brain, Home, FileText, Users, Target, BarChart3, Settings, 
   LogOut, User, Briefcase
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface DashboardSidebarProps {
   activeSection: string;
@@ -13,6 +14,7 @@ interface DashboardSidebarProps {
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeSection, setActiveSection }) => {
   const navigate = useNavigate();
+  const { signOut } = useAuth();
 
   const menuItems = [
     { id: 'overview', label: 'Overview', icon: Home, path: '/dashboard' },
@@ -28,6 +30,15 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeSection, setA
   const handleMenuClick = (item: any) => {
     setActiveSection(item.id);
     navigate(item.path);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   return (
@@ -63,7 +74,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeSection, setA
       {/* Logout */}
       <div className="absolute bottom-6 left-6 right-6">
         <button 
-          onClick={() => navigate('/')}
+          onClick={handleLogout}
           className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-red-500/20 hover:text-red-400 transition-all duration-200"
         >
           <LogOut className="h-5 w-5" />

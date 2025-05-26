@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles, Users, Target, Brain, Award, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useAuth } from '@/contexts/AuthContext';
 import Navigation from './Navigation';
 import HeroSection from './HeroSection';
 import FeaturesSection from './FeaturesSection';
@@ -13,6 +14,14 @@ import Footer from './Footer';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // If user is logged in, redirect to dashboard
+  React.useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">

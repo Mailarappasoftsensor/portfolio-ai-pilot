@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/contexts/AuthContext';
 import DashboardSidebar from './DashboardSidebar';
 import QuickActions from './QuickActions';
 import StatsOverview from './StatsOverview';
@@ -15,6 +16,7 @@ import RecentActivity from './RecentActivity';
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('overview');
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
@@ -24,7 +26,9 @@ const Dashboard = () => {
         <main className="flex-1 ml-64 p-8">
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-2">
-              Welcome back, <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Alex</span>
+              Welcome back, <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                {user?.user_metadata?.first_name || 'User'}
+              </span>
             </h1>
             <p className="text-gray-300">Let's accelerate your career growth today</p>
           </div>
