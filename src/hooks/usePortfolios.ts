@@ -44,7 +44,7 @@ export const usePortfolios = () => {
     }
   };
 
-  const createPortfolio = async (portfolioData: Partial<Portfolio>) => {
+  const createPortfolio = async (portfolioData: Partial<Portfolio> & { title: string }) => {
     if (!user) return;
 
     try {
@@ -52,7 +52,11 @@ export const usePortfolios = () => {
         .from('portfolios')
         .insert({
           user_id: user.id,
-          ...portfolioData,
+          title: portfolioData.title,
+          content: portfolioData.content || {},
+          template_id: portfolioData.template_id,
+          subdomain: portfolioData.subdomain,
+          is_published: portfolioData.is_published || false,
         })
         .select()
         .single();

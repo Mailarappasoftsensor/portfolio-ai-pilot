@@ -43,7 +43,7 @@ export const useResumes = () => {
     }
   };
 
-  const createResume = async (resumeData: Partial<Resume>) => {
+  const createResume = async (resumeData: Partial<Resume> & { title: string }) => {
     if (!user) return;
 
     try {
@@ -51,7 +51,10 @@ export const useResumes = () => {
         .from('resumes')
         .insert({
           user_id: user.id,
-          ...resumeData,
+          title: resumeData.title,
+          content: resumeData.content || {},
+          file_url: resumeData.file_url,
+          ats_score: resumeData.ats_score,
         })
         .select()
         .single();

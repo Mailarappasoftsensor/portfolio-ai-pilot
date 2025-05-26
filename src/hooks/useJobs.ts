@@ -33,7 +33,21 @@ export const useJobs = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setSavedJobs(data || []);
+      
+      // Map database fields to interface fields
+      const mappedJobs = (data || []).map(job => ({
+        id: job.id,
+        title: job.job_title,
+        company: job.company,
+        location: job.location || undefined,
+        description: job.description || undefined,
+        url: job.url || undefined,
+        status: job.status || undefined,
+        created_at: job.created_at,
+        updated_at: job.updated_at
+      }));
+      
+      setSavedJobs(mappedJobs);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -49,24 +63,44 @@ export const useJobs = () => {
     if (!user) return;
 
     try {
+      // Map interface fields to database fields
+      const dbJobData = {
+        user_id: user.id,
+        job_title: jobData.title || '',
+        company: jobData.company || '',
+        description: jobData.description,
+        url: jobData.url,
+        status: jobData.status,
+      };
+
       const { data, error } = await supabase
         .from('saved_jobs')
-        .insert({
-          user_id: user.id,
-          ...jobData,
-        })
+        .insert(dbJobData)
         .select()
         .single();
 
       if (error) throw error;
 
-      setSavedJobs(prev => [data, ...prev]);
+      // Map back to interface format
+      const mappedJob = {
+        id: data.id,
+        title: data.job_title,
+        company: data.company,
+        location: data.location || undefined,
+        description: data.description || undefined,
+        url: data.url || undefined,
+        status: data.status || undefined,
+        created_at: data.created_at,
+        updated_at: data.updated_at
+      };
+
+      setSavedJobs(prev => [mappedJob, ...prev]);
       toast({
         title: "Success",
         description: "Job saved successfully",
       });
 
-      return data;
+      return mappedJob;
     } catch (error: any) {
       toast({
         title: "Error",
@@ -91,8 +125,21 @@ export const useJobs = () => {
 
       if (error) throw error;
 
+      // Map back to interface format
+      const mappedJob = {
+        id: data.id,
+        title: data.job_title,
+        company: data.company,
+        location: data.location || undefined,
+        description: data.description || undefined,
+        url: data.url || undefined,
+        status: data.status || undefined,
+        created_at: data.created_at,
+        updated_at: data.updated_at
+      };
+
       setSavedJobs(prev => 
-        prev.map(job => job.id === id ? data : job)
+        prev.map(job => job.id === id ? mappedJob : job)
       );
 
       toast({
@@ -100,7 +147,7 @@ export const useJobs = () => {
         description: "Job status updated successfully",
       });
 
-      return data;
+      return mappedJob;
     } catch (error: any) {
       toast({
         title: "Error",
