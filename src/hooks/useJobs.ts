@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -39,7 +38,6 @@ export const useJobs = () => {
         id: job.id,
         title: job.job_title,
         company: job.company,
-        location: job.location || undefined,
         description: job.description || undefined,
         url: job.url || undefined,
         status: job.status || undefined,
@@ -86,7 +84,6 @@ export const useJobs = () => {
         id: data.id,
         title: data.job_title,
         company: data.company,
-        location: data.location || undefined,
         description: data.description || undefined,
         url: data.url || undefined,
         status: data.status || undefined,
@@ -130,7 +127,6 @@ export const useJobs = () => {
         id: data.id,
         title: data.job_title,
         company: data.company,
-        location: data.location || undefined,
         description: data.description || undefined,
         url: data.url || undefined,
         status: data.status || undefined,
