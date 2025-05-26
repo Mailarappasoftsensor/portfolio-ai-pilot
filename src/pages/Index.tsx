@@ -1,12 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from '../components/LandingPage';
+import Dashboard from '../components/Dashboard';
+import PortfolioBuilder from '../components/PortfolioBuilder';
+import ResumeOptimizer from '../components/ResumeOptimizer';
+import InterviewPrep from '../components/InterviewPrep';
+import JobMatcher from '../components/JobMatcher';
+import Analytics from '../components/Analytics';
+import Profile from '../components/Profile';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/portfolio" element={<PortfolioBuilder />} />
+        <Route path="/resume" element={<ResumeOptimizer />} />
+        <Route path="/interview" element={<InterviewPrep />} />
+        <Route path="/jobs" element={<JobMatcher />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
     </div>
   );
 };
