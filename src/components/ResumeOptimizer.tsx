@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { ArrowLeft, Upload, Zap, Download, Target, TrendingUp, FileText, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -122,9 +121,10 @@ const ResumeOptimizer = () => {
 
       // Update the resume with optimization results
       if (resumeData) {
+        const currentContent = resumeData.content || {};
         await updateResume(resumeData.id, {
           content: {
-            ...resumeData.content,
+            ...currentContent,
             optimization_result: mockResult,
             optimization_status: 'completed'
           },
