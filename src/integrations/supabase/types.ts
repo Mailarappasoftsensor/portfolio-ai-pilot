@@ -53,6 +53,36 @@ export type Database = {
           },
         ]
       }
+      ai_prompts: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          industry: string | null
+          is_active: boolean
+          prompt_template: string
+          variables: Json | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          industry?: string | null
+          is_active?: boolean
+          prompt_template: string
+          variables?: Json | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          industry?: string | null
+          is_active?: boolean
+          prompt_template?: string
+          variables?: Json | null
+        }
+        Relationships: []
+      }
       cover_letters: {
         Row: {
           company: string
@@ -163,6 +193,47 @@ export type Database = {
         }
         Relationships: []
       }
+      portfolio_analytics: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          portfolio_id: string
+          referrer: string | null
+          user_agent: string | null
+          visitor_ip: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          portfolio_id: string
+          referrer?: string | null
+          user_agent?: string | null
+          visitor_ip?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          portfolio_id?: string
+          referrer?: string | null
+          user_agent?: string | null
+          visitor_ip?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portfolio_analytics_portfolio_id_fkey"
+            columns: ["portfolio_id"]
+            isOneToOne: false
+            referencedRelation: "portfolios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       portfolio_templates: {
         Row: {
           category: string
@@ -196,6 +267,39 @@ export type Database = {
           preview_image?: string | null
           template_data?: Json
           updated_at?: string
+        }
+        Relationships: []
+      }
+      portfolio_themes: {
+        Row: {
+          config: Json
+          created_at: string
+          description: string | null
+          display_name: string
+          id: string
+          is_premium: boolean
+          name: string
+          preview_url: string | null
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          description?: string | null
+          display_name: string
+          id?: string
+          is_premium?: boolean
+          name: string
+          preview_url?: string | null
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          id?: string
+          is_premium?: boolean
+          name?: string
+          preview_url?: string | null
         }
         Relationships: []
       }
@@ -333,7 +437,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_ai_prompt: {
+        Args: { p_category: string; p_industry?: string }
+        Returns: {
+          prompt_template: string
+          variables: Json
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
