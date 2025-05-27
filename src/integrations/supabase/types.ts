@@ -9,6 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ai_generations: {
+        Row: {
+          created_at: string
+          generated_content: Json
+          generation_type: string
+          id: string
+          input_data: Json
+          portfolio_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          generated_content?: Json
+          generation_type: string
+          id?: string
+          input_data?: Json
+          portfolio_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          generated_content?: Json
+          generation_type?: string
+          id?: string
+          input_data?: Json
+          portfolio_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_generations_portfolio_id_fkey"
+            columns: ["portfolio_id"]
+            isOneToOne: false
+            referencedRelation: "portfolios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cover_letters: {
         Row: {
           company: string
@@ -116,6 +160,42 @@ export type Database = {
           sources?: Json | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      portfolio_templates: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          is_premium: boolean
+          name: string
+          preview_image: string | null
+          template_data: Json
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_premium?: boolean
+          name: string
+          preview_image?: string | null
+          template_data?: Json
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_premium?: boolean
+          name?: string
+          preview_image?: string | null
+          template_data?: Json
+          updated_at?: string
         }
         Relationships: []
       }
